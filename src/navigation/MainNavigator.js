@@ -1,16 +1,27 @@
-// src/navigation/MainNavigator.js
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Stack = createStackNavigator();
+// Screens
+import OnboardingScreen from '../screens/OnboardingScreen';
+import LoginScreen from '../screens/LoginScreen';
+
+// Tab Navigator (gồm Home, Profile, Settings)
+import BottomTabNavigator from './BottomTabNavigator';
+
+const Stack = createNativeStackNavigator();
 
 export default function MainNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="Onboarding" screenOptions={{ headerShown: false }}>
+
+      {/* Onboarding là màn hình đầu tiên khi mở app */}
+      <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+
+      {/* Sau khi onboarding, chuyển sang Login */}
       <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
+
+      {/* Sau khi đăng nhập thành công, dùng tab bar ở MainApp */}
+      <Stack.Screen name="MainApp" component={BottomTabNavigator} />
     </Stack.Navigator>
   );
 }

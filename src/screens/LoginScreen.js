@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView,
   KeyboardAvoidingView,
   Platform,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
 } from 'react-native';
-import { TextInput, Button, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
+import AuthLayout from '../components/AuthLayout';
+import InputField from '../components/InputField';
+import PrimaryButton from '../components/PrimaryButton';
 import spacing from '../theme/spacing';
 
 export default function LoginScreen({ navigation }) {
@@ -16,69 +18,55 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = () => {
     // TODO: validate inputs and perform login logic
-    navigation.replace('Home');
-
+    navigation.replace('MainApp');
   };
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>      
+    <AuthLayout>
       <KeyboardAvoidingView
-        style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={styles.flex}
       >
         <ScrollView
-          contentContainerStyle={styles.scrollContainer}
+          contentContainerStyle={[styles.scrollContainer, { padding: spacing.md }]}
           keyboardShouldPersistTaps="handled"
         >
-          <TextInput
+          <InputField
             label="Email"
             value={email}
             onChangeText={setEmail}
-            mode="outlined"
             keyboardType="email-address"
-            autoCapitalize="none"
-            style={[styles.input, { borderRadius: roundness }]}
             accessibilityLabel="Nhập email"
+            style={{ marginBottom: spacing.md, borderRadius: roundness }}
           />
-          <TextInput
+
+          <InputField
             label="Mật khẩu"
             value={password}
             onChangeText={setPassword}
-            mode="outlined"
             secureTextEntry
-            style={[styles.input, { borderRadius: roundness }]}
             accessibilityLabel="Nhập mật khẩu"
+            style={{ marginBottom: spacing.md, borderRadius: roundness }}
           />
-          <Button
-            mode="contained"
+
+          <PrimaryButton
+            label="Đăng nhập"
             onPress={handleLogin}
-            style={[styles.button, { borderRadius: roundness }]}
             accessibilityLabel="Đăng nhập tài khoản"
-          >
-            Đăng nhập
-          </Button>
+            style={{ borderRadius: roundness }}
+          />
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </AuthLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-  container: {
+  flex: {
     flex: 1,
   },
   scrollContainer: {
     flexGrow: 1,
     justifyContent: 'center',
-    padding: spacing.md,
-  },
-  input: {
-    marginBottom: spacing.md,
-  },
-  button: {
-    marginTop: spacing.sm,
   },
 });
